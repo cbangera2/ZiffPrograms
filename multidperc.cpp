@@ -38,18 +38,19 @@ int main(void)
 			-Cn is sum of probabilities
 			-P_n= combination(z,m)*p^n *(1-p)^(z-n)  //precalculate this at start
 		-pseudocode
+			set<int> visit;
+			queue<int> q;
 			for(int i=0; i<k ++i){
 				pick a unique vector dx randomly
 				from list of 0-59 possible nn vector (int)(60*random#)
 				list of previosly visited neigbors
 				x'=x+dx;
 				check if x' is in set/map to see if visited before
-				set<int> visit
 				if(visit.find(num)!=visit.end()){//if visited before
 					break;
 				}else{
 					set.push(num); //add to set
-					//add to queue as well
+					q.push(num); //add to queue as well
 				}
 			}
 			//after this find# of clusters in each  bin as that is equal to number of occupied sites
