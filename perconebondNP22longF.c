@@ -26,6 +26,31 @@ long    lat2[HEIGHT*WIDTH];     //for lattice
 long    xylist[S+1];             //for stack (queue)
 
 FILE *fp1;
+/*
+	Instructions:
+		-put outer point on queue
+		-get (x,y,z,w) from queue
+		-use Cn to find # of neighbors k
+			-Cn is sum of probabilities
+			-P_n= combination(z,m)*p^n *(1-p)^(z-n)  //precalculate this at start
+		-pseudocode
+			set<int> visit;
+			queue<int> q;
+			for(int i=0; i<k ++i){
+				pick a unique vector dx randomly
+				from list of 0-59 possible nn vector (int)(60*random#)
+				list of previosly visited neigbors
+				x'=x+dx;
+				check if x' is in set/map to see if visited before
+				if(visit.find(num)!=visit.end()){//if visited before
+					break;
+				}else{
+					set.push(num); //add to set
+					q.push(num); //add to queue as well
+				}
+			}
+			//after this find# of clusters in each  bin as that is equal to number of occupied sites
+	*/
 
 int main(void)
 {
@@ -105,20 +130,21 @@ int main(void)
                 rnd = NewRandomInteger/2147483648.0;
                 if(rnd==0) {printf("rnd=0"); rnd=1/2147483648.0;}  // was having problems with rnd=0, which is possible
                 i = 0;
-                while (rnd < pr[i]) 
+                while (rnd < pr[i]) //adds bond
                 {
 
 //choose dxy[i] by a random permutation of the order of the list of vectors
 
+                    //pick some amount of unique neigbors
                     j = i + (int)((z-i)*(NewRandomInteger/2147483648.0));
                     temp = dxy[i];
-                    dxy[i] = dxy[j];
+                    dxy[i] = dxy[j]; //dxy list of all possible 60 neigbors
                     dxy[j] = temp;
                
                     xyp = xy + dxy[i];
     
                     if ((xyp&W)>xmax) xmax=(xyp&W);
-                    if (lat2[xyp] < runs)
+                    if (lat2[xyp] < runs) //if empty
                     {
                         PutOnStack2(xyp)
                         lat2[xyp] = runs;
