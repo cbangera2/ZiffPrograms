@@ -24,7 +24,7 @@ using namespace std;
 #define GetFromStack2(XY) {XY = xylist[gptr & S]; ++gptr;}
 #define PutOnStack2(XY)    {xylist[pptr & S]=XY; ++pptr;}
 #define NewRandomInteger (++nd,ra[nd&M] = ra[(nd-471)&M]^ra[(nd-1586)&M]^ra[(nd-6988)&M]^ra[(nd-9689)&M])
-
+void randinit(long seed);
 
 long    ra[M+1], nd;            //for random number generator
 long    lat2[HEIGHT*WIDTH];     //for lattice
