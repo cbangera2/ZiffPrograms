@@ -65,6 +65,7 @@ int main(void)
     double sum, pro, pr[64], rnd;
     long xy,xyo,xyp,dxy[1024];
     set<long> visit;
+    randinit(SEED);
 
 //initialize random number gernerator (urrently creates error)
 //RANDINIT(SEED);
