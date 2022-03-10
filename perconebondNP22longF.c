@@ -58,7 +58,8 @@ int main(void)
     long    delx, dely, bin[64], xmax,z, temp, count[64],count2[64],gs,xl[64],trials,ntrials[64];
     double sum, pro, pr[64], rnd;
     long xy,xyo,xyp,dxy[1024];
-    
+    //define set<long> visit;
+    randinit(SEED);
 
 //xmax is used to make sure the cluster does not grow to the edge of the lattice (at least in the x direction)
 
@@ -115,8 +116,10 @@ int main(void)
         xo = yo = HEIGHT/2;
         xyo = (WIDTH/2)+(HEIGHT/2)*WIDTH;
         
+
+        //clear the structure
+        //visit.clear()
         lat2[xyo] = runs;  // here runs indicates site has been visited
- 
         {
             gptr = pptr = trials = 0; //stack (queue)
             PutOnStack2(xyo)
@@ -132,7 +135,7 @@ int main(void)
                 i = 0;
                 while (rnd < pr[i]) //adds bond
                 {
-
+                
 //choose dxy[i] by a random permutation of the order of the list of vectors
 
                     //pick some amount of unique neigbors
@@ -140,14 +143,15 @@ int main(void)
                     temp = dxy[i];
                     dxy[i] = dxy[j]; //dxy list of all possible 60 neigbors
                     dxy[j] = temp;
-               
                     xyp = xy + dxy[i];
-    
+                    //#include set
+                    //set<long> visit; 
                     if ((xyp&W)>xmax) xmax=(xyp&W);
-                    if (lat2[xyp] < runs) //if empty
+                    if (lat2[xyp] < runs) //if empty //if(visit.find(xyp)==visit.end())
                     {
                         PutOnStack2(xyp)
-                        lat2[xyp] = runs;
+                        lat2[xyp] = runs;//visit.push(xyp)
+
                     }
                     ++i;
                 }
@@ -168,7 +172,6 @@ int main(void)
             for (i = 0; i < 32; ++i)
             if (bin[i]) fprintf(fp1,"%10ld%12ld%18.10e\n", i, bin[i], bin[i]*1.0/runs);
             fclose(fp1);
-      
         } // if runs
    } // for runs
 }
