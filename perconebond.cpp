@@ -4,7 +4,7 @@
 //#include "FourTapGen.h"
 //#include "CustomQueue.h"
 #include <iostream>
-#include <set>
+#include "robin_hood.h"
 
 using namespace std;
 
@@ -27,7 +27,6 @@ using namespace std;
 void randinit(long seed);
 
 long    ra[M+1], nd;            //for random number generator
-long    lat2[HEIGHT*WIDTH];     //for lattice
 long    xylist[S+1];             //for stack (queue)
 
 FILE *fp1;
@@ -64,7 +63,7 @@ int main(void)
     long    delx, dely, bin[64], xmax,z, temp, count[64],count2[64],gs,xl[64],trials,ntrials[64];
     double sum, pro, pr[64], rnd;
     long xy,xyo,xyp,dxy[1024];
-    set<long> visit;
+    robin_hood::unordered_flat_set<long> visit;
     randinit(SEED);
 
 //initialize random number gernerator (urrently creates error)
@@ -111,11 +110,9 @@ int main(void)
 
     for (i = 0; i < 64; ++i)
         bin[i] = count[i] = count2[i] = ntrials[i] = 0;
-    
-    for(xy=0; xy<HEIGHT*WIDTH; ++xy)
-        lat2[xy]=0;
 
     gs=0;  //gs it the total number of growth sites
+    visit.reserve(10000000);
 
 //main loop
 
@@ -127,8 +124,6 @@ int main(void)
 
         //clear the structure
         visit.clear();
-        lat2[xyo] = runs;  // here runs indicates site has been visited
-
         {
             gptr = pptr = trials = 0; //stack (queue)
             PutOnStack2(xyo)
