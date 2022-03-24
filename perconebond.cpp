@@ -13,7 +13,7 @@ using namespace std;
 #define RUNSMAX  2000000000
 #define PRINTFREQ 1048575  //power of two minus 1
 #define OUTFILE "perconebondNP30"
-#define PROB 0.02301195 // z=8 0.25036834 
+#define PROB 0.0230119 // z=8 0.25036834 
 #define H (HEIGHT-1)
 #define W (WIDTH-1)
 #define R2 18 // square radius
